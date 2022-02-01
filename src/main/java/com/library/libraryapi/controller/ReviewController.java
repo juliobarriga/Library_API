@@ -31,4 +31,9 @@ public class ReviewController {
         return "calling getAllReviewsByUser" + userId;
     }
 
+    @PutMapping("/reviews/{reviewId}")
+    public String updateReview(@PathVariable(value = "reviewId") Long reviewId){
+        return "calling updateReview()" + reviewId;
+    }
+
 }
