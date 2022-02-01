@@ -1,6 +1,7 @@
 package com.library.libraryapi.controller;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -12,4 +13,7 @@ public class LoanController {
     public String getAllLoans(){
         return "calling getAllLoans";
     }
+
+    @PostMapping("/loans/")
+    public String loanBook(){ return "calling loanBook"; }
 }
