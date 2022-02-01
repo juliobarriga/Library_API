@@ -1,11 +1,32 @@
 package com.library.libraryapi.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import javax.persistence.*;
+
+@Entity
+@Table(name = "reviews")
 public class Review {
 
+    @Id
+    @Column
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column
     private String comment;
+
+    @Column
     private Integer rating;
+
+    @ManyToOne
+    @JoinColumn(name = "book_id")
+    @JsonIgnore
     private Book book;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    @JsonIgnore
     private User user;
 
     public Review() {
