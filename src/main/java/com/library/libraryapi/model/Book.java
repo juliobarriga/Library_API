@@ -1,16 +1,45 @@
 package com.library.libraryapi.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import javax.persistence.*;
+
+@Entity
+@Table(name = "books")
 public class Book {
 
+    @Id
+    @Column
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column
     private String title;
+
+    @Column
     private String summary;
+
+    @Column
     private String genre;
+
+    @Column
     private String publisher;
+
+    @Column
     private Integer pages;
+
+    @Column
     private String language;
+
+    @Column
     private Integer rating;
+
+    @Column
     private Boolean isAvailable;
+
+    @ManyToOne
+    @JoinColumn(name = "author_id")
+    @JsonIgnore
     private Author author;
 
     public Book() {

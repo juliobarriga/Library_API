@@ -1,12 +1,28 @@
 package com.library.libraryapi.model;
 
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
+
+import javax.persistence.*;
 import java.util.List;
 
+@Entity
+@Table(name = "authors")
 public class Author {
 
+    @Id
+    @Column
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column
     private String name;
+
+    @Column
     private String about;
+
+    @OneToMany(mappedBy = "book", orphanRemoval = true)
+    @LazyCollection(LazyCollectionOption.FALSE)
     private List<Book> bookList;
 
     public Author() {
