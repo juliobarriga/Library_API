@@ -12,4 +12,9 @@ public class UserController {
     public String registerUser(){
         return "calling registerUser";
     }
+
+    @PostMapping("/login")
+    public String loginUser(){
+        return "calling loginUser";
+    }
 }
