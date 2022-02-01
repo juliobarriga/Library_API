@@ -28,4 +28,9 @@ public class LoanController {
     public String getLoansByBookId(@PathVariable(value = "bookId") Long bookId){
         return "calling getLoanByBookId" + bookId;
     }
+
+    @PutMapping("/loans/{loanId}")
+    public String updateLoan(@PathVariable(value = "loanId") Long loanId){
+        return "calling updateLoan" + loanId;
+    }
 }
