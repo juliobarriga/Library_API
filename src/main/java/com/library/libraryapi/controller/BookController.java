@@ -1,5 +1,6 @@
 package com.library.libraryapi.controller;
 
+import com.library.libraryapi.exceptions.InformationNotFoundException;
 import com.library.libraryapi.model.Book;
 import com.library.libraryapi.repository.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,8 +20,13 @@ public class BookController {
     }
 
     @GetMapping("/books/")
-    public String getAllBooks(){
-        return "calling getAllBooks";
+    public List<Book> getAllBooks(){
+        List<Book> book = bookRepository.findAll();
+        if(book.isEmpty()){
+            throw new InformationNotFoundException("No books found on the database.");
+        } else {
+            return book;
+        }
     }
 
     @PostMapping("/books/")
