@@ -1,17 +1,26 @@
 package com.library.libraryapi.controller;
 
+import com.library.libraryapi.repository.LoanRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/")
 public class LoanController {
 
+    private LoanRepository loanRepository;
+
+    @Autowired
+    public void setLoanRepository(LoanRepository loanRepository) {
+        this.loanRepository = loanRepository;
+    }
+
     @GetMapping("/loans/")
     public String getAllLoans(){
         return "calling getAllLoans";
     }
 
-    @PostMapping("/loans/")
+    @PostMapping("/loans/books/{bookId}")
     public String loanBook(){ return "calling loanBook"; }
 
     @GetMapping("/loans/{loanId}")
