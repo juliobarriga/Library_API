@@ -1,8 +1,12 @@
 package com.library.libraryapi.controller;
 
+import com.library.libraryapi.exceptions.InformationNotFoundException;
+import com.library.libraryapi.model.Review;
 import com.library.libraryapi.repository.ReviewRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/")
@@ -16,8 +20,13 @@ public class ReviewController {
     }
 
     @GetMapping("/reviews/")
-    public String getAllReviews(){
-        return "calling getAllReviews";
+    public List<Review> getAllReviews(){
+        List<Review> review = reviewRepository.findAll();
+        if(review.isEmpty()){
+            throw new InformationNotFoundException("No reviews found on the database.");
+        } else {
+            return review;
+        }
     }
 
     @GetMapping("/reviews/books/{bookId}")
