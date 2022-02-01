@@ -20,4 +20,9 @@ public class AuthorController {
     public String getOneAuthor(@PathVariable(value = "authorId") Long authorId){
         return "calling getOneAuthor";
     }
+
+    @PutMapping("/authors/{authorId}")
+    public String updateAuthor(@PathVariable(value = "authorId") Long authorId){
+        return "calling updateAuthor";
+    }
 }
