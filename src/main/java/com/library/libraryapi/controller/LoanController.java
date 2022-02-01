@@ -1,8 +1,12 @@
 package com.library.libraryapi.controller;
 
+import com.library.libraryapi.exceptions.InformationNotFoundException;
+import com.library.libraryapi.model.Loan;
 import com.library.libraryapi.repository.LoanRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/")
@@ -16,8 +20,13 @@ public class LoanController {
     }
 
     @GetMapping("/loans/")
-    public String getAllLoans(){
-        return "calling getAllLoans";
+    public List<Loan> getAllLoans(){
+        List<Loan> loan = loanRepository.findAll();
+        if(loan.isEmpty()){
+            throw new InformationNotFoundException("No loans found on the database.");
+        } else {
+            return loan;
+        }
     }
 
     @PostMapping("/loans/books/{bookId}")
