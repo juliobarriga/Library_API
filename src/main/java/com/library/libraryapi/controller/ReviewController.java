@@ -1,5 +1,6 @@
 package com.library.libraryapi.controller;
 
+import com.library.libraryapi.exceptions.IncompleteInformationException;
 import com.library.libraryapi.exceptions.InformationNotFoundException;
 import com.library.libraryapi.model.Review;
 import com.library.libraryapi.repository.ReviewRepository;
@@ -40,8 +41,13 @@ public class ReviewController {
     }
 
     @PostMapping("/reviews/books/{bookId}")
-    public String addBookReview(@PathVariable(value = "bookId") Long bookId){
-        return "calling addBookReview()" + bookId;
+    public Review addBookReview(@PathVariable(value = "bookId") Long bookId, @RequestBody Review reviewObject){
+//        Review review = reviewRepository.findByBookIdAndUserId();
+        if(reviewObject.getRating() == null){
+            throw new IncompleteInformationException("Review is missing rating.");
+        } else {
+            return reviewRepository.save(reviewObject);
+        }
     }
 
     @GetMapping("/reviews/{reviewId}")
