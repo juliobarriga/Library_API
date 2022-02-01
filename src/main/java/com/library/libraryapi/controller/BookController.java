@@ -63,7 +63,7 @@ public class BookController {
             book.get().setPages(bookObject.getPages());
             book.get().setLanguage(bookObject.getLanguage());
             book.get().setRating(bookObject.getRating());
-            book.get().setAvailable(bookObject.getAvailable());
+            book.get().setIsAvailable(bookObject.getIsAvailable());
             book.get().setAuthor(bookObject.getAuthor());
             return bookRepository.save(book.get());
         }
