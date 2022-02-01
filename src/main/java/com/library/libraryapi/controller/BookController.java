@@ -29,4 +29,9 @@ public class BookController {
     public String updateBook(@PathVariable(value = "bookId") Long bookId){
         return "calling updateBook";
     }
+
+    @DeleteMapping("/books/{bookId}")
+    public String deleteBook(@PathVariable(value = "bookId") Long bookId){
+        return "calling deleteBook";
+    }
 }
