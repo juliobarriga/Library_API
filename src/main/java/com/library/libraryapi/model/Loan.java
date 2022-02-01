@@ -1,14 +1,36 @@
 package com.library.libraryapi.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import javax.persistence.*;
 import java.util.Date;
 
+@Entity
+@Table(name = "loans")
 public class Loan {
 
+    @Id
+    @Column
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column
     private Date borrowDate;
+
+    @Column
     private Date expirationDate;
+
+    @Column
     private Date returnDate;
+
+    @ManyToOne
+    @JoinColumn(name = "book_id")
+    @JsonIgnore
     private Book book;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    @JsonIgnore
     private User user;
 
     public Loan() {
