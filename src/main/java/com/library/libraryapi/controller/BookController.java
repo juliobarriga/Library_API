@@ -24,4 +24,9 @@ public class BookController {
     public String getOneBook(@PathVariable(value = "bookId") Long bookId){
         return "calling getOneBook";
     }
+
+    @PutMapping("/books/{bookId}")
+    public String updateBook(@PathVariable(value = "bookId") Long bookId){
+        return "calling updateBook";
+    }
 }
