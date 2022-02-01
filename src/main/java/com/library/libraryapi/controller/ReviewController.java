@@ -1,10 +1,19 @@
 package com.library.libraryapi.controller;
 
+import com.library.libraryapi.repository.ReviewRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/")
 public class ReviewController {
+
+    private ReviewRepository reviewRepository;
+
+    @Autowired
+    public void setReviewRepository(ReviewRepository reviewRepository) {
+        this.reviewRepository = reviewRepository;
+    }
 
     @GetMapping("/reviews/")
     public String getAllReviews(){
