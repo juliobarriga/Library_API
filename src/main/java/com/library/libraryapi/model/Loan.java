@@ -3,7 +3,7 @@ package com.library.libraryapi.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "loans")
@@ -15,13 +15,13 @@ public class Loan {
     private Long id;
 
     @Column
-    private Date borrowDate;
+    private LocalDate borrowDate;
 
     @Column
-    private Date expirationDate;
+    private LocalDate expirationDate;
 
     @Column
-    private Date returnDate;
+    private LocalDate returnDate;
 
     @ManyToOne
     @JoinColumn(name = "book_id")
@@ -36,7 +36,7 @@ public class Loan {
     public Loan() {
     }
 
-    public Loan(Long id, Date borrowDate, Date expirationDate, Date returnDate) {
+    public Loan(Long id, LocalDate borrowDate, LocalDate expirationDate, LocalDate returnDate) {
         this.id = id;
         this.borrowDate = borrowDate;
         this.expirationDate = expirationDate;
@@ -51,27 +51,27 @@ public class Loan {
         this.id = id;
     }
 
-    public Date getBorrowDate() {
+    public LocalDate getBorrowDate() {
         return borrowDate;
     }
 
-    public void setBorrowDate(Date borrowDate) {
+    public void setBorrowDate(LocalDate borrowDate) {
         this.borrowDate = borrowDate;
     }
 
-    public Date getExpirationDate() {
+    public LocalDate getExpirationDate() {
         return expirationDate;
     }
 
-    public void setExpirationDate(Date expirationDate) {
+    public void setExpirationDate(LocalDate expirationDate) {
         this.expirationDate = expirationDate;
     }
 
-    public Date getReturnDate() {
+    public LocalDate getReturnDate() {
         return returnDate;
     }
 
-    public void setReturnDate(Date returnDate) {
+    public void setReturnDate(LocalDate returnDate) {
         this.returnDate = returnDate;
     }
 
