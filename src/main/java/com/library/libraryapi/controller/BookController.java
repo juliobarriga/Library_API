@@ -1,15 +1,23 @@
 package com.library.libraryapi.controller;
 
+import com.library.libraryapi.model.Book;
+import com.library.libraryapi.repository.BookRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/")
 public class BookController {
 
-//    @GetMapping("/hello-world/")
-//    public String getHelloWorld(){
-//        return "Hello World";
-//    }
+    private BookRepository bookRepository;
+    
+    @Autowired
+    public void setBookRepository(BookRepository bookRepository){
+        this.bookRepository = bookRepository;
+    }
+
     @GetMapping("/books/")
     public String getAllBooks(){
         return "calling getAllBooks";
