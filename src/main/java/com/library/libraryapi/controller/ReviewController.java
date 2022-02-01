@@ -84,8 +84,14 @@ public class ReviewController {
     }
 
     @DeleteMapping("/reviews/{reviewId}")
-    public String deleteReview(@PathVariable(value = "reviewId") Long reviewId){
-        return "calling deleteReview" + reviewId;
+    public Review deleteReview(@PathVariable(value = "reviewId") Long reviewId){
+        Optional<Review> review = reviewRepository.findById(reviewId);
+        if(review.isEmpty()){
+            throw new InformationNotFoundException("Review with Id " + reviewId + " not found.");
+        } else {
+            reviewRepository.deleteById(reviewId);
+            return review.get();
+        }
     }
 
 }
