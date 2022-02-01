@@ -23,4 +23,9 @@ public class LoanController {
     public String getLoansByUserId(@PathVariable(value = "userId") Long userId){
         return "calling getLoanByUserId" + userId;
     }
+
+    @GetMapping("/loans/books/{bookId}")
+    public String getLoansByBookId(@PathVariable(value = "bookId") Long bookId){
+        return "calling getLoanByBookId" + bookId;
+    }
 }
