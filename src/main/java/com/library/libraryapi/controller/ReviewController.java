@@ -36,4 +36,9 @@ public class ReviewController {
         return "calling updateReview()" + reviewId;
     }
 
+    @DeleteMapping("/reviews/{reviewId}")
+    public String deleteReview(@PathVariable(value = "reviewId") Long reviewId){
+        return "calling deleteReview" + reviewId;
+    }
+
 }
