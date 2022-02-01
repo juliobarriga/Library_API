@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/")
@@ -41,8 +42,13 @@ public class BookController {
     }
 
     @GetMapping("/books/{bookId}")
-    public String getOneBook(@PathVariable(value = "bookId") Long bookId){
-        return "calling getOneBook";
+    public Book getOneBook(@PathVariable(value = "bookId") Long bookId){
+        Optional<Book> book = bookRepository.findById(bookId);
+        if(book.isEmpty()){
+            throw new InformationNotFoundException("Book with id: " + bookId + " doesn't exist.");
+        } else {
+            return book.get();
+        }
     }
 
     @PutMapping("/books/{bookId}")
