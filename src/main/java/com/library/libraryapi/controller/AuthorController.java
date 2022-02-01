@@ -1,9 +1,6 @@
 package com.library.libraryapi.controller;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/")
@@ -17,5 +14,10 @@ public class AuthorController {
     @PostMapping("/authors/")
     public String addNewAuthor(){
         return "calling addNewAuthor";
+    }
+
+    @GetMapping("/authors/{authorId}")
+    public String getOneAuthor(@PathVariable(value = "authorId") Long authorId){
+        return "calling getOneAuthor";
     }
 }
