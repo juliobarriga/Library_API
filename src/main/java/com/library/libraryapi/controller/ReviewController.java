@@ -3,6 +3,7 @@ package com.library.libraryapi.controller;
 import com.library.libraryapi.exceptions.IncompleteInformationException;
 import com.library.libraryapi.exceptions.InformationNotFoundException;
 import com.library.libraryapi.model.Review;
+import com.library.libraryapi.repository.BookRepository;
 import com.library.libraryapi.repository.ReviewRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -19,6 +20,13 @@ public class ReviewController {
     @Autowired
     public void setReviewRepository(ReviewRepository reviewRepository) {
         this.reviewRepository = reviewRepository;
+    }
+
+    private BookRepository bookRepository;
+
+    @Autowired
+    public void setBookRepository(BookRepository bookRepository) {
+        this.bookRepository = bookRepository;
     }
 
     @GetMapping("/reviews/")
