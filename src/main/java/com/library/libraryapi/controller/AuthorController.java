@@ -25,4 +25,9 @@ public class AuthorController {
     public String updateAuthor(@PathVariable(value = "authorId") Long authorId){
         return "calling updateAuthor";
     }
+
+    @DeleteMapping("/authors/{authorId}")
+    public String deleteAuthor(@PathVariable(value = "authorId") Long authorId){
+        return "calling deleteAuthor";
+    }
 }
