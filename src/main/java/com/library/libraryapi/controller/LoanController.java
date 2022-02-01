@@ -33,4 +33,9 @@ public class LoanController {
     public String updateLoan(@PathVariable(value = "loanId") Long loanId){
         return "calling updateLoan" + loanId;
     }
+
+    @DeleteMapping("/loans/{loanId}")
+    public String deleteLoan(@PathVariable(value = "loanId") Long loanId){
+        return "calling deleteLoan" + loanId;
+    }
 }
