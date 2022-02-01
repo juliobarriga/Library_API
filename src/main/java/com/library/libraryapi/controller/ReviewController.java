@@ -21,4 +21,9 @@ public class ReviewController {
         return "calling addBookReview()" + bookId;
     }
 
+    @GetMapping("/reviews/{reviewId}")
+    public String getReviewById(@PathVariable(value = "reviewId") Long reviewId){
+        return "calling getReviewById()" + reviewId;
+    }
+
 }
