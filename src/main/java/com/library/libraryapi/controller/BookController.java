@@ -12,7 +12,7 @@ import java.util.List;
 public class BookController {
 
     private BookRepository bookRepository;
-    
+
     @Autowired
     public void setBookRepository(BookRepository bookRepository){
         this.bookRepository = bookRepository;
