@@ -1,9 +1,6 @@
 package com.library.libraryapi.controller;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/")
@@ -16,4 +13,9 @@ public class LoanController {
 
     @PostMapping("/loans/")
     public String loanBook(){ return "calling loanBook"; }
+
+    @GetMapping("/loans/{loanId}")
+    public String getLoanById(@PathVariable(value = "loanId") Long loanId){
+        return "calling getLoanById" + loanId;
+    }
 }
