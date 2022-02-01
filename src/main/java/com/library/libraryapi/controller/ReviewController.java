@@ -16,4 +16,9 @@ public class ReviewController {
         return "calling getAllReviewsByBook()" + bookId;
     }
 
+    @PostMapping("/reviews/books/{bookId}")
+    public String addBookReview(@PathVariable(value = "bookId") Long bookId){
+        return "calling addBookReview()" + bookId;
+    }
+
 }
