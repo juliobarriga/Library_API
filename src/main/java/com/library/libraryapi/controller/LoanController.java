@@ -1,6 +1,7 @@
 package com.library.libraryapi.controller;
 
 import com.library.libraryapi.exceptions.InformationNotFoundException;
+import com.library.libraryapi.exceptions.NotAvailableException;
 import com.library.libraryapi.model.Book;
 import com.library.libraryapi.model.Loan;
 import com.library.libraryapi.repository.BookRepository;
@@ -47,6 +48,8 @@ public class LoanController {
         Optional<Book> book = bookRepository.findById(bookId);
         if(book.isEmpty()){
             throw new InformationNotFoundException("Book with id " + bookId + " not found.");
+        } else if (book.get().getIsAvailable() == false) {
+            throw new NotAvailableException("Book with id " + bookId + " is not available.");
         } else {
             Loan loanObject = new Loan();
             loanObject.setBook(book.get());
