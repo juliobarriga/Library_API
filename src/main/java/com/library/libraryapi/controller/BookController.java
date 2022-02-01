@@ -54,7 +54,7 @@ public class BookController {
     @PutMapping("/books/{bookId}")
     public Book updateBook(@PathVariable(value = "bookId") Long bookId, @RequestBody Book bookObject){
         Optional<Book> book = bookRepository.findById(bookId);
-        if(book.isPresent()){
+        if(book.isEmpty()){
             throw new InformationNotFoundException("Book with id: " + bookId + " doesn't exist.");
         } else {
             book.get().setTitle(bookObject.getTitle());
@@ -70,7 +70,13 @@ public class BookController {
     }
 
     @DeleteMapping("/books/{bookId}")
-    public String deleteBook(@PathVariable(value = "bookId") Long bookId){
-        return "calling deleteBook";
+    public Book deleteBook(@PathVariable(value = "bookId") Long bookId){
+        Optional<Book> book = bookRepository.findById(bookId);
+        if(book.isEmpty()){
+            throw new InformationNotFoundException("Book with id: " + bookId + " doesn't exist.");
+        } else {
+            bookRepository.deleteById(bookId);
+            return book.get();
+        }
     }
 }
