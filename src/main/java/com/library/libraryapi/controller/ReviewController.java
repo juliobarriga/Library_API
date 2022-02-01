@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/")
@@ -51,8 +52,13 @@ public class ReviewController {
     }
 
     @GetMapping("/reviews/{reviewId}")
-    public String getReviewById(@PathVariable(value = "reviewId") Long reviewId){
-        return "calling getReviewById()" + reviewId;
+    public Review getReviewById(@PathVariable(value = "reviewId") Long reviewId){
+        Optional<Review> review = reviewRepository.findById(reviewId);
+        if(review.isEmpty()){
+            throw new InformationNotFoundException("Review with id " + reviewId + " not found.");
+        } else {
+            return review.get();
+        }
     }
 
     @GetMapping("/reviews/users/{userId}")
