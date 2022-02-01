@@ -1,6 +1,10 @@
 package com.library.libraryapi.model;
 
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
+
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "users")
@@ -31,6 +35,14 @@ public class User {
 
     @Column
     private Boolean isLibrarian;
+
+    @OneToMany(mappedBy = "user", orphanRemoval = true)
+    @LazyCollection(LazyCollectionOption.FALSE)
+    private List<Loan> loanList;
+
+    @OneToMany(mappedBy = "user", orphanRemoval = true)
+    @LazyCollection(LazyCollectionOption.FALSE)
+    private List<Review> reviewList;
 
     public User() {
     }
@@ -108,6 +120,22 @@ public class User {
 
     public void setLibrarian(Boolean librarian) {
         isLibrarian = librarian;
+    }
+
+    public List<Loan> getLoanList() {
+        return loanList;
+    }
+
+    public void setLoanList(List<Loan> loanList) {
+        this.loanList = loanList;
+    }
+
+    public List<Review> getReviewList() {
+        return reviewList;
+    }
+
+    public void setReviewList(List<Review> reviewList) {
+        this.reviewList = reviewList;
     }
 
     @Override
