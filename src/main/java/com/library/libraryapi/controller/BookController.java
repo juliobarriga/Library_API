@@ -1,5 +1,6 @@
 package com.library.libraryapi.controller;
 
+import com.library.libraryapi.exceptions.InformationExistException;
 import com.library.libraryapi.exceptions.InformationNotFoundException;
 import com.library.libraryapi.model.Book;
 import com.library.libraryapi.repository.BookRepository;
@@ -30,8 +31,13 @@ public class BookController {
     }
 
     @PostMapping("/books/")
-    public String addNewBook(){
-        return "calling addNewBook";
+    public Book addNewBook(@RequestBody Book bookObject){
+        Book book = bookRepository.findByTitle(bookObject.getTitle());
+        if(book != null){
+            throw new InformationExistException("Book '" + bookObject.getTitle() + "' by " + bookObject.getAuthor() + " already exists");
+        } else {
+            return bookRepository.save(bookObject);
+        }
     }
 
     @GetMapping("/books/{bookId}")

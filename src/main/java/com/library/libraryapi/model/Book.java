@@ -23,9 +23,6 @@ public class Book {
     private String genre;
 
     @Column
-    private String publisher;
-
-    @Column
     private Integer pages;
 
     @Column
@@ -37,24 +34,21 @@ public class Book {
     @Column
     private Boolean isAvailable;
 
-    @ManyToOne
-    @JoinColumn(name = "author_id")
-    @JsonIgnore
-    private Author author;
+    @Column String author;
 
     public Book() {
     }
 
-    public Book(Long id, String title, String summary, String genre, String publisher, Integer pages, String language, Integer rating, Boolean isAvailable) {
+    public Book(Long id, String title, String summary, String genre, Integer pages, String language, Integer rating, Boolean isAvailable, String author) {
         this.id = id;
         this.title = title;
         this.summary = summary;
         this.genre = genre;
-        this.publisher = publisher;
         this.pages = pages;
         this.language = language;
         this.rating = rating;
         this.isAvailable = isAvailable;
+        this.author = author;
     }
 
     public Long getId() {
@@ -89,14 +83,6 @@ public class Book {
         this.genre = genre;
     }
 
-    public String getPublisher() {
-        return publisher;
-    }
-
-    public void setPublisher(String publisher) {
-        this.publisher = publisher;
-    }
-
     public Integer getPages() {
         return pages;
     }
@@ -129,11 +115,11 @@ public class Book {
         isAvailable = available;
     }
 
-    public Author getAuthor() {
+    public String getAuthor() {
         return author;
     }
 
-    public void setAuthor(Author author) {
+    public void setAuthor(String author) {
         this.author = author;
     }
 
@@ -144,7 +130,6 @@ public class Book {
                 ", title='" + title + '\'' +
                 ", summary='" + summary + '\'' +
                 ", genre='" + genre + '\'' +
-                ", publisher='" + publisher + '\'' +
                 ", pages=" + pages +
                 ", language='" + language + '\'' +
                 ", rating=" + rating +
