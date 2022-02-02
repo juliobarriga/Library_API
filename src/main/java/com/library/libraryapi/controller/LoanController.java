@@ -29,12 +29,7 @@ public class LoanController {
 
     @GetMapping("/loans/")
     public List<Loan> getAllLoans(){
-        List<Loan> loan = loanRepository.findAll();
-        if(loan.isEmpty()){
-            throw new InformationNotFoundException("No loans found on the database.");
-        } else {
-            return loan;
-        }
+        return loanService.getAllLoans();
     }
 
     @PostMapping("/loans/books/{bookId}")

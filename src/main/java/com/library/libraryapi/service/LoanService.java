@@ -32,7 +32,6 @@ public class LoanService {
         this.bookRepository = bookRepository;
     }
 
-    @GetMapping("/loans/")
     public List<Loan> getAllLoans(){
         List<Loan> loan = loanRepository.findAll();
         if(loan.isEmpty()){
