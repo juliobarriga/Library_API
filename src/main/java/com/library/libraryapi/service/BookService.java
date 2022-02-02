@@ -30,8 +30,7 @@ public class BookService {
         }
     }
 
-    @PostMapping("/books/")
-    public Book addNewBook(@RequestBody Book bookObject){
+    public Book addNewBook(Book bookObject){
         Book book = bookRepository.findByTitleAndAuthor(bookObject.getTitle(), bookObject.getAuthor());
         if(book != null){
             throw new InformationExistException("Book '" + bookObject.getTitle() + "' by " + bookObject.getAuthor() + " already exists");

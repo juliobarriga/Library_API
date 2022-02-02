@@ -29,12 +29,7 @@ public class BookController {
 
     @PostMapping("/books/")
     public Book addNewBook(@RequestBody Book bookObject){
-        Book book = bookRepository.findByTitleAndAuthor(bookObject.getTitle(), bookObject.getAuthor());
-        if(book != null){
-            throw new InformationExistException("Book '" + bookObject.getTitle() + "' by " + bookObject.getAuthor() + " already exists");
-        } else {
-            return bookRepository.save(bookObject);
-        }
+        return bookService.addNewBook(bookObject);
     }
 
     @GetMapping("/books/{bookId}")
