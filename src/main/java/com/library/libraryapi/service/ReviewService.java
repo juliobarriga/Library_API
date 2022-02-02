@@ -109,7 +109,14 @@ public class ReviewService {
         if(review.isEmpty()){
             throw new InformationNotFoundException("Review with Id " + reviewId + " not found.");
         } else {
+            Optional<Book> book = bookRepository.findById(review.get().getBook().getId());
             reviewRepository.deleteById(reviewId);
+            double rating = reviewRepository.findByBookId(review.get().getBook().getId()).stream()
+                    .mapToDouble(Review::getRating)
+                    .average()
+                    .orElse(0);
+            book.get().setRating(Integer.valueOf((int)Math.round(rating)));
+            bookRepository.save(book.get());
             return review.get();
         }
     }
