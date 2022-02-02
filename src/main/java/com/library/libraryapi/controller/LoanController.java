@@ -104,7 +104,13 @@ public class LoanController {
     }
 
     @DeleteMapping("/loans/{loanId}")
-    public String deleteLoan(@PathVariable(value = "loanId") Long loanId){
-        return "calling deleteLoan" + loanId;
+    public Loan deleteLoan(@PathVariable(value = "loanId") Long loanId){
+        Optional<Loan> loan = loanRepository.findById(loanId);
+        if(loan.isEmpty()){
+            throw new InformationNotFoundException("Book with id: " + loanId + "not found.");
+        } else {
+            loanRepository.deleteById(loanId);
+            return loan.get();
+        }
     }
 }
