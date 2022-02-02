@@ -49,12 +49,7 @@ public class LoanController {
 
     @GetMapping("/loans/books/{bookId}")
     public List<Loan> getLoansByBookId(@PathVariable(value = "bookId") Long bookId){
-        List<Loan> loan = loanRepository.findByBookId(bookId);
-        if(loan.isEmpty()){
-            throw new InformationNotFoundException("No loans found for user id: " + bookId);
-        } else {
-            return loan;
-        }
+        return loanService.getLoansByBookId(bookId);
     }
 
     @PutMapping("/loans/{loanId}")
