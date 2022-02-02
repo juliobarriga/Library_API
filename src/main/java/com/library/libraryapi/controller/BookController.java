@@ -24,12 +24,7 @@ public class BookController {
 
     @GetMapping("/books/")
     public List<Book> getAllBooks(){
-        List<Book> book = bookRepository.findAll();
-        if(book.isEmpty()){
-            throw new InformationNotFoundException("No books found on the database.");
-        } else {
-            return book;
-        }
+        return bookService.getAllBooks();
     }
 
     @PostMapping("/books/")

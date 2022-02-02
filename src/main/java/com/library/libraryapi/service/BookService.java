@@ -21,7 +21,6 @@ public class BookService {
         this.bookRepository = bookRepository;
     }
 
-    @GetMapping("/books/")
     public List<Book> getAllBooks(){
         List<Book> book = bookRepository.findAll();
         if(book.isEmpty()){
