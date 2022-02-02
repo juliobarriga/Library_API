@@ -39,12 +39,7 @@ public class ReviewController {
 
     @GetMapping("/reviews/{reviewId}")
     public Review getReviewById(@PathVariable(value = "reviewId") Long reviewId){
-        Optional<Review> review = reviewRepository.findById(reviewId);
-        if(review.isEmpty()){
-            throw new InformationNotFoundException("Review with id " + reviewId + " not found.");
-        } else {
-            return review.get();
-        }
+        return reviewService.getReviewById(reviewId);
     }
 
     @GetMapping("/reviews/users/{userId}")
