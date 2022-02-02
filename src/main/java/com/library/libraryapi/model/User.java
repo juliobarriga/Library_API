@@ -20,7 +20,7 @@ public class User {
     private String name;
 
     @Column(unique = true)
-    private String email;
+    private String emailAddress;
 
     @Column
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
@@ -52,7 +52,7 @@ public class User {
     public User(Long id, String name, String email, String password, String cardNumber, String address, Integer zipCode, Boolean isLibrarian) {
         this.id = id;
         this.name = name;
-        this.email = email;
+        this.emailAddress = email;
         this.password = password;
         this.cardNumber = cardNumber;
         this.address = address;
@@ -76,12 +76,12 @@ public class User {
         this.name = name;
     }
 
-    public String getEmail() {
-        return email;
+    public String getEmailAddress() {
+        return emailAddress;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setEmailAddress(String emailAddress) {
+        this.emailAddress = emailAddress;
     }
 
     public String getPassword() {
@@ -145,7 +145,7 @@ public class User {
         return "User{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", email='" + email + '\'' +
+                ", emailAddress='" + emailAddress + '\'' +
                 ", password='" + password + '\'' +
                 ", cardNumber='" + cardNumber + '\'' +
                 ", address='" + address + '\'' +
