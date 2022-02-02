@@ -58,7 +58,7 @@ public class LoanService {
         }
     }
 
-    public Loan getLoanById(@PathVariable(value = "loanId") Long loanId){
+    public Loan getLoanById(Long loanId){
         Optional<Loan> loan = loanRepository.findById(loanId);
         if(loan.isEmpty()){
             throw new InformationNotFoundException("Loan with id " + loanId + " not found.");
@@ -67,8 +67,7 @@ public class LoanService {
         }
     }
 
-    @GetMapping("/loans/users/{userId}")
-    public List<Loan> getLoansByUserId(@PathVariable(value = "userId") Long userId){
+    public List<Loan> getLoansByUserId(Long userId){
         List<Loan> loan = loanRepository.findByUserId(userId);
         if(loan.isEmpty()){
             throw new InformationNotFoundException("No loans found for user id: " + userId);
