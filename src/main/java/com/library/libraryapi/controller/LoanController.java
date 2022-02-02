@@ -1,20 +1,11 @@
 package com.library.libraryapi.controller;
 
-import com.library.libraryapi.exceptions.InformationNotFoundException;
-import com.library.libraryapi.exceptions.NotAvailableException;
-import com.library.libraryapi.model.Book;
 import com.library.libraryapi.model.Loan;
-import com.library.libraryapi.repository.BookRepository;
-import com.library.libraryapi.repository.LoanRepository;
 import com.library.libraryapi.service.LoanService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
-import java.time.temporal.ChronoUnit;
-import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/")
@@ -59,12 +50,6 @@ public class LoanController {
 
     @DeleteMapping("/loans/{loanId}")
     public Loan deleteLoan(@PathVariable(value = "loanId") Long loanId){
-        Optional<Loan> loan = loanRepository.findById(loanId);
-        if(loan.isEmpty()){
-            throw new InformationNotFoundException("Book with id: " + loanId + "not found.");
-        } else {
-            loanRepository.deleteById(loanId);
-            return loan.get();
-        }
+        return loanService.deleteLoan(loanId);
     }
 }

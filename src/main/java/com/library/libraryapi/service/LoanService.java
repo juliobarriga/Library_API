@@ -8,7 +8,6 @@ import com.library.libraryapi.repository.BookRepository;
 import com.library.libraryapi.repository.LoanRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
@@ -97,8 +96,7 @@ public class LoanService {
         }
     }
 
-    @DeleteMapping("/loans/{loanId}")
-    public Loan deleteLoan(@PathVariable(value = "loanId") Long loanId){
+    public Loan deleteLoan(Long loanId){
         Optional<Loan> loan = loanRepository.findById(loanId);
         if(loan.isEmpty()){
             throw new InformationNotFoundException("Book with id: " + loanId + "not found.");
