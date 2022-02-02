@@ -39,8 +39,7 @@ public class BookService {
         }
     }
 
-    @GetMapping("/books/{bookId}")
-    public Book getOneBook(@PathVariable(value = "bookId") Long bookId){
+    public Book getOneBook(Long bookId){
         Optional<Book> book = bookRepository.findById(bookId);
         if(book.isEmpty()){
             throw new InformationNotFoundException("Book with id: " + bookId + " doesn't exist.");
