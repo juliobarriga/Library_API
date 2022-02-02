@@ -51,13 +51,12 @@ public class LoanController {
         } else if (book.get().getIsAvailable() == false) {
             throw new NotAvailableException("Book with id " + bookId + " is not available.");
         } else {
-            Book book = bookRepository.findById(bookId);
             Loan loanObject = new Loan();
             loanObject.setBook(book.get());
 //            loanObject.setUser(); Sets user
             loanObject.setBorrowDate(LocalDate.now());
             loanObject.setExpirationDate(loanObject.getBorrowDate().plus(3, ChronoUnit.WEEKS));
-            book.setIsAvailable(false);
+            book.get().setIsAvailable(false);
             return loanRepository.save(loanObject);
         }
     }
