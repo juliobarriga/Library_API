@@ -48,8 +48,7 @@ public class BookService {
         }
     }
 
-    @PutMapping("/books/{bookId}")
-    public Book updateBook(@PathVariable(value = "bookId") Long bookId, @RequestBody Book bookObject){
+    public Book updateBook(Long bookId, Book bookObject){
         Optional<Book> book = bookRepository.findById(bookId);
         if(book.isEmpty()){
             throw new InformationNotFoundException("Book with id: " + bookId + " doesn't exist.");
