@@ -44,12 +44,7 @@ public class ReviewController {
 
     @GetMapping("/reviews/users/{userId}")
     public List<Review> getAllReviewsByUser(@PathVariable(value = "userId") Long userId){
-        List<Review> review = reviewRepository.findByUserId(userId);
-        if(review.isEmpty()){
-            throw new InformationNotFoundException("No reviews found made by user with id: " + userId);
-        } else {
-            return review;
-        }
+        return reviewService.getAllReviewsByUser(userId);
     }
 
     @PutMapping("/reviews/{reviewId}")
