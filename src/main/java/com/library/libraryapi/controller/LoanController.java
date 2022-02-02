@@ -6,6 +6,7 @@ import com.library.libraryapi.model.Book;
 import com.library.libraryapi.model.Loan;
 import com.library.libraryapi.repository.BookRepository;
 import com.library.libraryapi.repository.LoanRepository;
+import com.library.libraryapi.service.LoanService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,18 +20,11 @@ import java.util.Optional;
 @RequestMapping("/api/")
 public class LoanController {
 
-    private LoanRepository loanRepository;
+    private LoanService loanService;
 
     @Autowired
-    public void setLoanRepository(LoanRepository loanRepository) {
-        this.loanRepository = loanRepository;
-    }
-
-    private BookRepository bookRepository;
-
-    @Autowired
-    public void setBookRepository(BookRepository bookRepository) {
-        this.bookRepository = bookRepository;
+    public void setLoanService(LoanService loanService) {
+        this.loanService = loanService;
     }
 
     @GetMapping("/loans/")
