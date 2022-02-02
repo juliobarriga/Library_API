@@ -54,15 +54,7 @@ public class LoanController {
 
     @PutMapping("/loans/{loanId}")
     public Loan updateLoan(@PathVariable(value = "loanId") Long loanId, @RequestBody Loan loanObject){
-        Optional<Loan> loan = loanRepository.findById(loanId);
-        if(loan.isEmpty()){
-            throw new InformationNotFoundException("Loan with id: " + loanId + " not found.");
-        } else {
-            loan.get().setBorrowDate(loanObject.getBorrowDate());
-            loan.get().setExpirationDate(loanObject.getExpirationDate());
-            loan.get().setReturnDate(loanObject.getReturnDate());
-            return loanRepository.save(loan.get());
-        }
+        return loanService.updateLoan(loanId, loanObject);
     }
 
     @DeleteMapping("/loans/{loanId}")

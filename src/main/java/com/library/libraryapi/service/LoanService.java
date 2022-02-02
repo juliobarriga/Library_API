@@ -85,8 +85,7 @@ public class LoanService {
         }
     }
 
-    @PutMapping("/loans/{loanId}")
-    public Loan updateLoan(@PathVariable(value = "loanId") Long loanId, @RequestBody Loan loanObject){
+    public Loan updateLoan(Long loanId, Loan loanObject){
         Optional<Loan> loan = loanRepository.findById(loanId);
         if(loan.isEmpty()){
             throw new InformationNotFoundException("Loan with id: " + loanId + " not found.");
