@@ -63,12 +63,7 @@ public class ReviewService {
                 reviewObject.setBook(book.get());
 //                reviewObject.setUser(); Add user with login
                 reviewRepository.save(reviewObject);
-                double rating = reviewRepository.findByBookId(bookId).stream()
-                        .mapToDouble(Review::getRating)
-                        .average()
-                        .orElse(0);
-                book.get().setRating(Integer.valueOf((int)Math.round(rating)));
-                bookRepository.save(book.get());
+                updateBookRating(bookId);
                 return reviewObject;
             }
         }
@@ -100,7 +95,9 @@ public class ReviewService {
         } else {
             review.get().setComment(reviewObject.getComment());
             review.get().setRating(reviewObject.getRating());
-            return reviewRepository.save(review.get());
+            reviewRepository.save(review.get());
+            updateBookRating(review.get().getBook().getId());
+            return reviewObject;
         }
     }
 
@@ -109,15 +106,19 @@ public class ReviewService {
         if(review.isEmpty()){
             throw new InformationNotFoundException("Review with Id " + reviewId + " not found.");
         } else {
-            Optional<Book> book = bookRepository.findById(review.get().getBook().getId());
             reviewRepository.deleteById(reviewId);
-            double rating = reviewRepository.findByBookId(review.get().getBook().getId()).stream()
-                    .mapToDouble(Review::getRating)
-                    .average()
-                    .orElse(0);
-            book.get().setRating(Integer.valueOf((int)Math.round(rating)));
-            bookRepository.save(book.get());
+            updateBookRating(review.get().getBook().getId());
             return review.get();
         }
+    }
+
+    public void updateBookRating(Long bookId){
+        Optional<Book> book = bookRepository.findById(bookId);
+        double rating = reviewRepository.findByBookId(bookId).stream()
+                .mapToDouble(Review::getRating)
+                .average()
+                .orElse(0);
+        book.get().setRating(Integer.valueOf((int)Math.round(rating)));
+        bookRepository.save(book.get());
     }
 }
