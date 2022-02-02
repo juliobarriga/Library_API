@@ -24,12 +24,7 @@ public class ReviewController {
 
     @GetMapping("/reviews/")
     public List<Review> getAllReviews(){
-        List<Review> review = reviewRepository.findAll();
-        if(review.isEmpty()){
-            throw new InformationNotFoundException("No reviews found on the database.");
-        } else {
-            return review;
-        }
+        return reviewService.getAllReviews();
     }
 
     @GetMapping("/reviews/books/{bookId}")

@@ -30,7 +30,6 @@ public class ReviewService {
         this.bookRepository = bookRepository;
     }
 
-    @GetMapping("/reviews/")
     public List<Review> getAllReviews(){
         List<Review> review = reviewRepository.findAll();
         if(review.isEmpty()){
