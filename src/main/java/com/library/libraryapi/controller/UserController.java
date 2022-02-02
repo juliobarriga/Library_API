@@ -1,17 +1,31 @@
 package com.library.libraryapi.controller;
 
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.library.libraryapi.model.User;
+import com.library.libraryapi.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/auth/users/")
+@RequestMapping("/auth/users")
 public class UserController {
 
+    private UserService userService;
+
+    @Autowired
+    private AuthenticationManager authenticationManager;
+
+    @Autowired
+    private UserDetailsService userDetailsService;
+
+    @Autowired public void setUserService(UserService userService){
+        this.userService = userService;
+    }
+
     @PostMapping("/register")
-    public String registerUser(){
-        return "calling registerUser";
+    public User registerUser(@RequestBody User userObject){
+        this.userService = userService;
     }
 
     @PostMapping("/login")
