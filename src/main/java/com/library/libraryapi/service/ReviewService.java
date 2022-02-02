@@ -39,8 +39,7 @@ public class ReviewService {
         }
     }
 
-    @GetMapping("/reviews/books/{bookId}")
-    public List<Review> getAllReviewsByBook(@PathVariable(value = "bookId") Long bookId){
+    public List<Review> getAllReviewsByBook(Long bookId){
         List<Review> review = reviewRepository.findByBookId(bookId);
         if(review.isEmpty()){
             throw new InformationNotFoundException("No reviews found for book with id: " + bookId);

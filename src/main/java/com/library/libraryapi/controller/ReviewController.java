@@ -29,12 +29,7 @@ public class ReviewController {
 
     @GetMapping("/reviews/books/{bookId}")
     public List<Review> getAllReviewsByBook(@PathVariable(value = "bookId") Long bookId){
-        List<Review> review = reviewRepository.findByBookId(bookId);
-        if(review.isEmpty()){
-            throw new InformationNotFoundException("No reviews found for book with id: " + bookId);
-        } else {
-            return review;
-        }
+        return reviewService.getAllReviewsByBook(bookId);
     }
 
     @PostMapping("/reviews/books/{bookId}")
