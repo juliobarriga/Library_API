@@ -1,15 +1,11 @@
 package com.library.libraryapi.controller;
 
-import com.library.libraryapi.exceptions.InformationExistException;
-import com.library.libraryapi.exceptions.InformationNotFoundException;
 import com.library.libraryapi.model.Book;
-import com.library.libraryapi.repository.BookRepository;
 import com.library.libraryapi.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/")
@@ -44,12 +40,6 @@ public class BookController {
 
     @DeleteMapping("/books/{bookId}")
     public Book deleteBook(@PathVariable(value = "bookId") Long bookId){
-        Optional<Book> book = bookRepository.findById(bookId);
-        if(book.isEmpty()){
-            throw new InformationNotFoundException("Book with id: " + bookId + " doesn't exist.");
-        } else {
-            bookRepository.deleteById(bookId);
-            return book.get();
-        }
+        return bookService.deleteBook(bookId);
     }
 }

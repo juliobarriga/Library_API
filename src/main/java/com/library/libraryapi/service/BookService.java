@@ -6,7 +6,6 @@ import com.library.libraryapi.model.Book;
 import com.library.libraryapi.repository.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
@@ -65,8 +64,7 @@ public class BookService {
         }
     }
 
-    @DeleteMapping("/books/{bookId}")
-    public Book deleteBook(@PathVariable(value = "bookId") Long bookId){
+    public Book deleteBook(Long bookId){
         Optional<Book> book = bookRepository.findById(bookId);
         if(book.isEmpty()){
             throw new InformationNotFoundException("Book with id: " + bookId + " doesn't exist.");
