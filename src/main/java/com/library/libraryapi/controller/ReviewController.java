@@ -1,15 +1,11 @@
 package com.library.libraryapi.controller;
 
-import com.library.libraryapi.exceptions.IncompleteInformationException;
-import com.library.libraryapi.exceptions.InformationNotFoundException;
-import com.library.libraryapi.model.Book;
 import com.library.libraryapi.model.Review;
 import com.library.libraryapi.service.ReviewService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/")
@@ -54,13 +50,7 @@ public class ReviewController {
 
     @DeleteMapping("/reviews/{reviewId}")
     public Review deleteReview(@PathVariable(value = "reviewId") Long reviewId){
-        Optional<Review> review = reviewRepository.findById(reviewId);
-        if(review.isEmpty()){
-            throw new InformationNotFoundException("Review with Id " + reviewId + " not found.");
-        } else {
-            reviewRepository.deleteById(reviewId);
-            return review.get();
-        }
+        return reviewService.deleteReview(reviewId);
     }
 
 }

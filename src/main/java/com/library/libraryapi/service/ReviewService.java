@@ -8,7 +8,6 @@ import com.library.libraryapi.repository.BookRepository;
 import com.library.libraryapi.repository.ReviewRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
@@ -94,8 +93,7 @@ public class ReviewService {
         }
     }
 
-    @DeleteMapping("/reviews/{reviewId}")
-    public Review deleteReview(@PathVariable(value = "reviewId") Long reviewId){
+    public Review deleteReview(Long reviewId){
         Optional<Review> review = reviewRepository.findById(reviewId);
         if(review.isEmpty()){
             throw new InformationNotFoundException("Review with Id " + reviewId + " not found.");
