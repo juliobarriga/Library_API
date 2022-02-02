@@ -40,7 +40,7 @@ public class LoanService {
             return loan;
         }
     }
-    
+
     public Loan loanBook(Long bookId){
         Optional<Book> book = bookRepository.findById(bookId);
         if(book.isEmpty()){
@@ -58,7 +58,6 @@ public class LoanService {
         }
     }
 
-    @GetMapping("/loans/{loanId}")
     public Loan getLoanById(@PathVariable(value = "loanId") Long loanId){
         Optional<Loan> loan = loanRepository.findById(loanId);
         if(loan.isEmpty()){
