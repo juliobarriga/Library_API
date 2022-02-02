@@ -9,8 +9,10 @@ import com.library.libraryapi.repository.ReviewRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class ReviewService {
@@ -55,10 +57,19 @@ public class ReviewService {
         } else {
             if(reviewObject.getRating() == null){
                 throw new IncompleteInformationException("Review is missing rating.");
-            } else {
+            } else if(reviewObject.getRating() > 5){
+                throw new IncompleteInformationException("Rating should be 0,1,2,3,4 or 5.");
+            } else{
                 reviewObject.setBook(book.get());
 //                reviewObject.setUser(); Add user with login
-                return reviewRepository.save(reviewObject);
+                reviewRepository.save(reviewObject);
+                double rating = reviewRepository.findByBookId(bookId).stream()
+                        .mapToDouble(Review::getRating)
+                        .average()
+                        .orElse(0);
+                book.get().setRating(Integer.valueOf((int)Math.round(rating)));
+                bookRepository.save(book.get());
+                return reviewObject;
             }
         }
 
