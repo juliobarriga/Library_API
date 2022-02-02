@@ -4,6 +4,7 @@ import com.library.libraryapi.exceptions.InformationExistException;
 import com.library.libraryapi.exceptions.InformationNotFoundException;
 import com.library.libraryapi.model.Book;
 import com.library.libraryapi.repository.BookRepository;
+import com.library.libraryapi.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,11 +15,11 @@ import java.util.Optional;
 @RequestMapping("/api/")
 public class BookController {
 
-    private BookRepository bookRepository;
+    private BookService bookService;
 
     @Autowired
-    public void setBookRepository(BookRepository bookRepository){
-        this.bookRepository = bookRepository;
+    public void setBookService(BookService bookService){
+        this.bookService = bookService;
     }
 
     @GetMapping("/books/")
