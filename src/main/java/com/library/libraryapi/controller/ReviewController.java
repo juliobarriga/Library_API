@@ -49,14 +49,7 @@ public class ReviewController {
 
     @PutMapping("/reviews/{reviewId}")
     public Review updateReview(@PathVariable(value = "reviewId") Long reviewId, @RequestBody Review reviewObject){
-        Optional<Review> review = reviewRepository.findById(reviewId);
-        if(review.isEmpty()){
-            throw new InformationNotFoundException("Review with Id " + reviewId + " not found.");
-        } else {
-            review.get().setComment(reviewObject.getComment());
-            review.get().setRating(reviewObject.getRating());
-            return reviewRepository.save(review.get());
-        }
+        return reviewService.updateReview(reviewId, reviewObject);
     }
 
     @DeleteMapping("/reviews/{reviewId}")

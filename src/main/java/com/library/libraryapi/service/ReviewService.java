@@ -83,8 +83,7 @@ public class ReviewService {
         }
     }
 
-    @PutMapping("/reviews/{reviewId}")
-    public Review updateReview(@PathVariable(value = "reviewId") Long reviewId, @RequestBody Review reviewObject){
+    public Review updateReview(Long reviewId, Review reviewObject){
         Optional<Review> review = reviewRepository.findById(reviewId);
         if(review.isEmpty()){
             throw new InformationNotFoundException("Review with Id " + reviewId + " not found.");
