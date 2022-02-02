@@ -71,8 +71,13 @@ public class LoanController {
     }
 
     @GetMapping("/loans/users/{userId}")
-    public String getLoansByUserId(@PathVariable(value = "userId") Long userId){
-        return "calling getLoanByUserId" + userId;
+    public List<Loan> getLoansByUserId(@PathVariable(value = "userId") Long userId){
+        List<Loan> loan = loanRepository.findByUserId(userId);
+        if(loan.isEmpty()){
+            throw new InformationNotFoundException("No loans found for user id: " + userId);
+        } else {
+            return loan;
+        }
     }
 
     @GetMapping("/loans/books/{bookId}")
