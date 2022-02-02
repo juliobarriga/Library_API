@@ -48,8 +48,7 @@ public class ReviewService {
         }
     }
 
-    @PostMapping("/reviews/books/{bookId}")
-    public Review addBookReview(@PathVariable(value = "bookId") Long bookId, @RequestBody Review reviewObject){
+    public Review addBookReview(Long bookId, Review reviewObject){
 //        Review review = reviewRepository.findByBookIdAndUserId();
         Optional<Book> book = bookRepository.findById(bookId);
         if(book.isEmpty()){

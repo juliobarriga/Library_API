@@ -34,20 +34,7 @@ public class ReviewController {
 
     @PostMapping("/reviews/books/{bookId}")
     public Review addBookReview(@PathVariable(value = "bookId") Long bookId, @RequestBody Review reviewObject){
-//        Review review = reviewRepository.findByBookIdAndUserId();
-        Optional<Book> book = bookRepository.findById(bookId);
-        if(book.isEmpty()){
-            throw new InformationNotFoundException("Book with id " + bookId + " not found.");
-        } else {
-            if(reviewObject.getRating() == null){
-                throw new IncompleteInformationException("Review is missing rating.");
-            } else {
-                reviewObject.setBook(book.get());
-//                reviewObject.setUser(); Add user with login
-                return reviewRepository.save(reviewObject);
-            }
-        }
-
+        return reviewService.addBookReview(bookId, reviewObject);
     }
 
     @GetMapping("/reviews/{reviewId}")
