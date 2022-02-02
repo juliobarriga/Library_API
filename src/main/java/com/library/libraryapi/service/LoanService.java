@@ -40,9 +40,8 @@ public class LoanService {
             return loan;
         }
     }
-
-    @PostMapping("/loans/books/{bookId}")
-    public Loan loanBook(@PathVariable(value = "bookId") Long bookId){
+    
+    public Loan loanBook(Long bookId){
         Optional<Book> book = bookRepository.findById(bookId);
         if(book.isEmpty()){
             throw new InformationNotFoundException("Book with id " + bookId + " not found.");
