@@ -140,9 +140,15 @@ public class LoanService {
             if(loan.isEmpty()){
                 throw new InformationNotFoundException("Loan with id: " + loanId + " not found.");
             } else {
+                Optional<Book> book = bookRepository.findById(loan.get().getBook().getId());
                 loan.get().setBorrowDate(loanObject.getBorrowDate());
                 loan.get().setExpirationDate(loanObject.getExpirationDate());
                 loan.get().setReturnDate(loanObject.getReturnDate());
+                if(loanObject.getReturnDate() != null){
+                    book.get().setIsAvailable(true);
+                } else {
+                    book.get().setIsAvailable(false);
+                }
                 return loanRepository.save(loan.get());
             }
         } else {
@@ -150,7 +156,14 @@ public class LoanService {
             if(loan == null){
                 throw new InformationNotFoundException("Loan with id: " + loanId + " for user id "+ userDetails.getUser().getId() + " not found.");
             } else {
+                Optional<Book> book = bookRepository.findById(loan.getBook().getId());
                 loan.setExpirationDate(loanObject.getExpirationDate());
+                loan.setReturnDate(loanObject.getReturnDate());
+                if(loanObject.getReturnDate() != null){
+                    book.get().setIsAvailable(true);
+                } else {
+                    book.get().setIsAvailable(false);
+                }
                 return loanRepository.save(loan);
             }
         }
