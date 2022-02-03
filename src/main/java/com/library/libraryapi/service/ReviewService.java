@@ -1,12 +1,15 @@
 package com.library.libraryapi.service;
 
 import com.library.libraryapi.exceptions.IncompleteInformationException;
+import com.library.libraryapi.exceptions.InformationExistException;
 import com.library.libraryapi.exceptions.InformationNotFoundException;
 import com.library.libraryapi.model.Book;
 import com.library.libraryapi.model.Review;
 import com.library.libraryapi.repository.BookRepository;
 import com.library.libraryapi.repository.ReviewRepository;
+import com.library.libraryapi.security.MyUserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -48,23 +51,29 @@ public class ReviewService {
     }
 
     public Review addBookReview(Long bookId, Review reviewObject){
-//        Review review = reviewRepository.findByBookIdAndUserId();
-        Optional<Book> book = bookRepository.findById(bookId);
-        if(book.isEmpty()){
-            throw new InformationNotFoundException("Book with id " + bookId + " not found.");
-        } else {
-            if(reviewObject.getRating() == null){
-                throw new IncompleteInformationException("Review is missing rating.");
-            } else if(reviewObject.getRating() > 5){
-                throw new IncompleteInformationException("Rating should be 0,1,2,3,4 or 5.");
-            } else{
-                reviewObject.setBook(book.get());
-//                reviewObject.setUser(); Add user with login
-                reviewRepository.save(reviewObject);
-                updateBookRating(bookId);
-                return reviewObject;
+        MyUserDetails userDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Review review = reviewRepository.findByBookIdAndUserId(bookId, userDetails.getUser().getId());
+        if(review == null){
+            Optional<Book> book = bookRepository.findById(bookId);
+            if(book.isEmpty()){
+                throw new InformationNotFoundException("Book with id " + bookId + " not found.");
+            } else {
+                if(reviewObject.getRating() == null){
+                    throw new IncompleteInformationException("Review is missing rating.");
+                } else if(reviewObject.getRating() > 5 || reviewObject.getRating() < 0){
+                    throw new IncompleteInformationException("Rating should be 0,1,2,3,4 or 5.");
+                } else{
+                    reviewObject.setBook(book.get());
+                    reviewObject.setUser(userDetails.getUser());
+                    reviewRepository.save(reviewObject);
+                    updateBookRating(bookId);
+                    return reviewObject;
+                }
             }
+        } else {
+            throw new InformationExistException("User with id " + userDetails.getUser().getId() + " already has reviewed the book with id" + bookId);
         }
+
 
     }
 
@@ -87,26 +96,29 @@ public class ReviewService {
     }
 
     public Review updateReview(Long reviewId, Review reviewObject){
-        Optional<Review> review = reviewRepository.findById(reviewId);
-        if(review.isEmpty()){
-            throw new InformationNotFoundException("Review with Id " + reviewId + " not found.");
+        MyUserDetails userDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Review review = reviewRepository.findByIdAndUserId(reviewId, userDetails.getUser().getId());
+        if(review == null){
+            throw new InformationNotFoundException("Review with Id " + reviewId + " not found for user with id " + userDetails.getUser().getId());
         } else {
-            review.get().setComment(reviewObject.getComment());
-            review.get().setRating(reviewObject.getRating());
-            reviewRepository.save(review.get());
-            updateBookRating(review.get().getBook().getId());
+            review.setComment(reviewObject.getComment());
+            review.setRating(reviewObject.getRating());
+            reviewRepository.save(review);
+            updateBookRating(review.getBook().getId());
             return reviewObject;
         }
+
     }
 
     public Review deleteReview(Long reviewId){
-        Optional<Review> review = reviewRepository.findById(reviewId);
-        if(review.isEmpty()){
-            throw new InformationNotFoundException("Review with Id " + reviewId + " not found.");
+        MyUserDetails userDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Review review = reviewRepository.findByIdAndUserId(reviewId, userDetails.getUser().getId());
+        if(review == null){
+            throw new InformationNotFoundException("Review with Id " + reviewId + " not found for user with id " + userDetails.getUser().getId());
         } else {
             reviewRepository.deleteById(reviewId);
-            updateBookRating(review.get().getBook().getId());
-            return review.get();
+            updateBookRating(review.getBook().getId());
+            return review;
         }
     }
 
