@@ -74,7 +74,7 @@ public class BookService {
                 return bookRepository.save(book.get());
             }
         } else {
-            throw new ForbiddenException("Librarian account needed to add a new book.");
+            throw new ForbiddenException("Librarian account needed to update a book.");
         }
 
     }
@@ -90,7 +90,7 @@ public class BookService {
                 return book.get();
             }
         } else {
-            throw new ForbiddenException("Librarian account needed to add a new book.");
+            throw new ForbiddenException("Librarian account needed to delete a book.");
         }
 
     }
