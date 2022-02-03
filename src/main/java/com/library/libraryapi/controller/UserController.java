@@ -35,8 +35,8 @@ public class UserController {
         return userService.loginUser(loginRequest);
     }
 
-    @PutMapping("/update")
-    public String updateUser(){
-        return "calling updateUser";
-    }
+//    @PutMapping("/update")
+//    public String updateUser(){
+//        return "calling updateUser";
+//    }
 }
