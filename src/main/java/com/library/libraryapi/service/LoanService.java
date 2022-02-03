@@ -1,12 +1,15 @@
 package com.library.libraryapi.service;
 
+import com.library.libraryapi.exceptions.ForbiddenException;
 import com.library.libraryapi.exceptions.InformationNotFoundException;
 import com.library.libraryapi.exceptions.NotAvailableException;
 import com.library.libraryapi.model.Book;
 import com.library.libraryapi.model.Loan;
 import com.library.libraryapi.repository.BookRepository;
 import com.library.libraryapi.repository.LoanRepository;
+import com.library.libraryapi.security.MyUserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -32,15 +35,27 @@ public class LoanService {
     }
 
     public List<Loan> getAllLoans(){
-        List<Loan> loan = loanRepository.findAll();
-        if(loan.isEmpty()){
-            throw new InformationNotFoundException("No loans found on the database.");
+        MyUserDetails userDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if(userDetails.getUser().getLibrarian()){
+            List<Loan> loan = loanRepository.findAll();
+            if(loan.isEmpty()){
+                throw new InformationNotFoundException("No loans found on the database.");
+            } else {
+                return loan;
+            }
         } else {
-            return loan;
+            List<Loan> loan = loanRepository.findByUserId(userDetails.getUser().getId());
+            if(loan.isEmpty()){
+                throw new InformationNotFoundException("No loans found for user id: " + userDetails.getUser().getId());
+            } else {
+                return loan;
+            }
         }
+
     }
 
     public Loan loanBook(Long bookId){
+        MyUserDetails userDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Optional<Book> book = bookRepository.findById(bookId);
         if(book.isEmpty()){
             throw new InformationNotFoundException("Book with id " + bookId + " not found.");
@@ -49,7 +64,7 @@ public class LoanService {
         } else {
             Loan loanObject = new Loan();
             loanObject.setBook(book.get());
-//            loanObject.setUser(); Sets user
+            loanObject.setUser(userDetails.getUser());
             loanObject.setBorrowDate(LocalDate.now());
             loanObject.setExpirationDate(loanObject.getBorrowDate().plus(3, ChronoUnit.WEEKS));
             book.get().setIsAvailable(false);
@@ -58,51 +73,103 @@ public class LoanService {
     }
 
     public Loan getLoanById(Long loanId){
-        Optional<Loan> loan = loanRepository.findById(loanId);
-        if(loan.isEmpty()){
-            throw new InformationNotFoundException("Loan with id " + loanId + " not found.");
+        MyUserDetails userDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if(userDetails.getUser().getLibrarian()){
+            Optional<Loan> loan = loanRepository.findById(loanId);
+            if(loan.isEmpty()){
+                throw new InformationNotFoundException("Loan with id " + loanId + " not found.");
+            } else {
+                return loan.get();
+            }
         } else {
-            return loan.get();
+            Loan loan = loanRepository.findByIdAndUserId(loanId, userDetails.getUser().getId());
+            if(loan != null){
+                return loan;
+            } else {
+                throw new InformationNotFoundException("Loan with id " + loanId + " and user id " + userDetails.getUser().getId() + " not found.");
+            }
         }
+
     }
 
     public List<Loan> getLoansByUserId(Long userId){
-        List<Loan> loan = loanRepository.findByUserId(userId);
-        if(loan.isEmpty()){
-            throw new InformationNotFoundException("No loans found for user id: " + userId);
+        MyUserDetails userDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if(userDetails.getUser().getLibrarian()){
+            List<Loan> loan = loanRepository.findByUserId(userId);
+            if(loan.isEmpty()){
+                throw new InformationNotFoundException("No loans found for user id: " + userId);
+            } else {
+                return loan;
+            }
+        } else if(userDetails.getUser().getId() == userId){
+            List<Loan> loan = loanRepository.findByUserId(userId);
+            if(loan.isEmpty()){
+                throw new InformationNotFoundException("No loans found for user id " + userId);
+            } else {
+                return loan;
+            }
         } else {
-            return loan;
+            throw new ForbiddenException("User with id " + userDetails.getUser().getId() + " cannot access user id " + userId + " loans.");
         }
+
     }
 
     public List<Loan> getLoansByBookId(Long bookId){
-        List<Loan> loan = loanRepository.findByBookId(bookId);
-        if(loan.isEmpty()){
-            throw new InformationNotFoundException("No loans found for user id: " + bookId);
+        MyUserDetails userDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if(userDetails.getUser().getLibrarian()){
+            List<Loan> loan = loanRepository.findByBookId(bookId);
+            if(loan.isEmpty()){
+                throw new InformationNotFoundException("No loans found for book id: " + bookId);
+            } else {
+                return loan;
+            }
         } else {
-            return loan;
+            List<Loan> loan = loanRepository.findByBookIdAndUserId(bookId, userDetails.getUser().getId());
+            if(loan.isEmpty()){
+                throw new InformationNotFoundException("No loans found for user id " + userDetails.getUser().getId() + " and book id " + bookId);
+            } else {
+                return loan;
+            }
         }
     }
 
     public Loan updateLoan(Long loanId, Loan loanObject){
-        Optional<Loan> loan = loanRepository.findById(loanId);
-        if(loan.isEmpty()){
-            throw new InformationNotFoundException("Loan with id: " + loanId + " not found.");
+        MyUserDetails userDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if(userDetails.getUser().getLibrarian()){
+            Optional<Loan> loan = loanRepository.findById(loanId);
+            if(loan.isEmpty()){
+                throw new InformationNotFoundException("Loan with id: " + loanId + " not found.");
+            } else {
+                loan.get().setBorrowDate(loanObject.getBorrowDate());
+                loan.get().setExpirationDate(loanObject.getExpirationDate());
+                loan.get().setReturnDate(loanObject.getReturnDate());
+                return loanRepository.save(loan.get());
+            }
         } else {
-            loan.get().setBorrowDate(loanObject.getBorrowDate());
-            loan.get().setExpirationDate(loanObject.getExpirationDate());
-            loan.get().setReturnDate(loanObject.getReturnDate());
-            return loanRepository.save(loan.get());
+            Loan loan = loanRepository.findByIdAndUserId(loanId, userDetails.getUser().getId());
+            if(loan == null){
+                throw new InformationNotFoundException("Loan with id: " + loanId + " for user id "+ userDetails.getUser().getId() + " not found.");
+            } else {
+                loan.setExpirationDate(loanObject.getExpirationDate());
+                return loanRepository.save(loan);
+            }
         }
+
     }
 
     public Loan deleteLoan(Long loanId){
-        Optional<Loan> loan = loanRepository.findById(loanId);
-        if(loan.isEmpty()){
-            throw new InformationNotFoundException("Book with id: " + loanId + "not found.");
+        MyUserDetails userDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if(userDetails.getUser().getLibrarian()){
+            Optional<Loan> loan = loanRepository.findById(loanId);
+            if(loan.isEmpty()){
+                throw new InformationNotFoundException("Book with id: " + loanId + "not found.");
+            } else {
+                loanRepository.deleteById(loanId);
+                return loan.get();
+            }
         } else {
-            loanRepository.deleteById(loanId);
-            return loan.get();
+            throw new ForbiddenException("Librarian account needed to delete loan.");
         }
+
     }
 }
