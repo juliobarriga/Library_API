@@ -175,8 +175,12 @@ public class LoanService {
         if(userDetails.getUser().getIsLibrarian()){
             Optional<Loan> loan = loanRepository.findById(loanId);
             if(loan.isEmpty()){
-                throw new InformationNotFoundException("Book with id: " + loanId + "not found.");
+                throw new InformationNotFoundException("Loan with id " + loanId + " not found.");
             } else {
+                if(loan.get().getReturnDate() == null){
+                    Optional<Book> book = bookRepository.findById(loan.get().getBook().getId());
+                    book.get().setIsAvailable(true);
+                }
                 loanRepository.deleteById(loanId);
                 return loan.get();
             }
