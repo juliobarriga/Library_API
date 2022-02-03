@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/")
+@RequestMapping("/api")
 public class LoanController {
 
     private LoanService loanService;
@@ -18,7 +18,7 @@ public class LoanController {
         this.loanService = loanService;
     }
 
-    @GetMapping("/loans/")
+    @GetMapping("/loans")
     public List<Loan> getAllLoans(){
         return loanService.getAllLoans();
     }
