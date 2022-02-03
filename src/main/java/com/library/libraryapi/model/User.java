@@ -116,12 +116,12 @@ public class User {
         this.zipCode = zipCode;
     }
 
-    public Boolean getLibrarian() {
+    public Boolean getIsLibrarian() {
         return isLibrarian;
     }
 
-    public void setLibrarian(Boolean librarian) {
-        isLibrarian = librarian;
+    public void setIsLibrarian(Boolean isLibrarian) {
+        this.isLibrarian = isLibrarian;
     }
 
     public List<Loan> getLoanList() {

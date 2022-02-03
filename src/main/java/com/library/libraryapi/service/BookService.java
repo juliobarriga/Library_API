@@ -34,7 +34,7 @@ public class BookService {
 
     public Book addNewBook(Book bookObject){
         MyUserDetails userDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if(userDetails.getUser().getLibrarian()){
+        if(userDetails.getUser().getIsLibrarian()){
             Book book = bookRepository.findByTitleAndAuthor(bookObject.getTitle(), bookObject.getAuthor());
             if(book != null){
                 throw new InformationExistException("Book '" + bookObject.getTitle() + "' by " + bookObject.getAuthor() + " already exists");
@@ -58,7 +58,7 @@ public class BookService {
 
     public Book updateBook(Long bookId, Book bookObject){
         MyUserDetails userDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if(userDetails.getUser().getLibrarian()){
+        if(userDetails.getUser().getIsLibrarian()){
             Optional<Book> book = bookRepository.findById(bookId);
             if(book.isEmpty()){
                 throw new InformationNotFoundException("Book with id: " + bookId + " doesn't exist.");
@@ -81,7 +81,7 @@ public class BookService {
 
     public Book deleteBook(Long bookId){
         MyUserDetails userDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if(userDetails.getUser().getLibrarian()){
+        if(userDetails.getUser().getIsLibrarian()){
             Optional<Book> book = bookRepository.findById(bookId);
             if(book.isEmpty()){
                 throw new InformationNotFoundException("Book with id: " + bookId + " doesn't exist.");

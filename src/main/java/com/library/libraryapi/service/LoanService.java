@@ -36,7 +36,7 @@ public class LoanService {
 
     public List<Loan> getAllLoans(){
         MyUserDetails userDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if(userDetails.getUser().getLibrarian()){
+        if(userDetails.getUser().getIsLibrarian()){
             List<Loan> loan = loanRepository.findAll();
             if(loan.isEmpty()){
                 throw new InformationNotFoundException("No loans found on the database.");
@@ -74,7 +74,7 @@ public class LoanService {
 
     public Loan getLoanById(Long loanId){
         MyUserDetails userDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if(userDetails.getUser().getLibrarian()){
+        if(userDetails.getUser().getIsLibrarian()){
             Optional<Loan> loan = loanRepository.findById(loanId);
             if(loan.isEmpty()){
                 throw new InformationNotFoundException("Loan with id " + loanId + " not found.");
@@ -94,7 +94,7 @@ public class LoanService {
 
     public List<Loan> getLoansByUserId(Long userId){
         MyUserDetails userDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if(userDetails.getUser().getLibrarian()){
+        if(userDetails.getUser().getIsLibrarian()){
             List<Loan> loan = loanRepository.findByUserId(userId);
             if(loan.isEmpty()){
                 throw new InformationNotFoundException("No loans found for user id: " + userId);
@@ -116,7 +116,7 @@ public class LoanService {
 
     public List<Loan> getLoansByBookId(Long bookId){
         MyUserDetails userDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if(userDetails.getUser().getLibrarian()){
+        if(userDetails.getUser().getIsLibrarian()){
             List<Loan> loan = loanRepository.findByBookId(bookId);
             if(loan.isEmpty()){
                 throw new InformationNotFoundException("No loans found for book id: " + bookId);
@@ -135,7 +135,7 @@ public class LoanService {
 
     public Loan updateLoan(Long loanId, Loan loanObject){
         MyUserDetails userDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if(userDetails.getUser().getLibrarian()){
+        if(userDetails.getUser().getIsLibrarian()){
             Optional<Loan> loan = loanRepository.findById(loanId);
             if(loan.isEmpty()){
                 throw new InformationNotFoundException("Loan with id: " + loanId + " not found.");
@@ -159,7 +159,7 @@ public class LoanService {
 
     public Loan deleteLoan(Long loanId){
         MyUserDetails userDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if(userDetails.getUser().getLibrarian()){
+        if(userDetails.getUser().getIsLibrarian()){
             Optional<Loan> loan = loanRepository.findById(loanId);
             if(loan.isEmpty()){
                 throw new InformationNotFoundException("Book with id: " + loanId + "not found.");
