@@ -16,7 +16,7 @@ public class Book {
     @Column
     private String title;
 
-    @Column
+    @Column(columnDefinition = "TEXT")
     private String summary;
 
     @Column
