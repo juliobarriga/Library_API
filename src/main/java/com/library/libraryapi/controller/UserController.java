@@ -1,8 +1,10 @@
 package com.library.libraryapi.controller;
 
+import com.library.libraryapi.model.Request.LoginRequest;
 import com.library.libraryapi.model.User;
 import com.library.libraryapi.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.*;
@@ -29,8 +31,9 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public String loginUser(){
-        return "calling loginUser";
+    public ResponseEntity<?> loginUser(@RequestBody LoginRequest loginRequest) {
+        System.out.println("calling loginUser ==>");
+        return userService.loginUser(loginRequest);
     }
 
     @PutMapping("/update")
