@@ -1,10 +1,13 @@
 package com.library.libraryapi.service;
 
+import com.library.libraryapi.exceptions.ForbiddenException;
 import com.library.libraryapi.exceptions.InformationExistException;
 import com.library.libraryapi.exceptions.InformationNotFoundException;
 import com.library.libraryapi.model.Book;
 import com.library.libraryapi.repository.BookRepository;
+import com.library.libraryapi.security.MyUserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -30,12 +33,18 @@ public class BookService {
     }
 
     public Book addNewBook(Book bookObject){
-        Book book = bookRepository.findByTitleAndAuthor(bookObject.getTitle(), bookObject.getAuthor());
-        if(book != null){
-            throw new InformationExistException("Book '" + bookObject.getTitle() + "' by " + bookObject.getAuthor() + " already exists");
+        MyUserDetails userDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if(userDetails.getUser().getLibrarian()){
+            Book book = bookRepository.findByTitleAndAuthor(bookObject.getTitle(), bookObject.getAuthor());
+            if(book != null){
+                throw new InformationExistException("Book '" + bookObject.getTitle() + "' by " + bookObject.getAuthor() + " already exists");
+            } else {
+                return bookRepository.save(bookObject);
+            }
         } else {
-            return bookRepository.save(bookObject);
+            throw new ForbiddenException("Librarian account needed to add a new book.");
         }
+
     }
 
     public Book getOneBook(Long bookId){
@@ -48,29 +57,41 @@ public class BookService {
     }
 
     public Book updateBook(Long bookId, Book bookObject){
-        Optional<Book> book = bookRepository.findById(bookId);
-        if(book.isEmpty()){
-            throw new InformationNotFoundException("Book with id: " + bookId + " doesn't exist.");
+        MyUserDetails userDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if(userDetails.getUser().getLibrarian()){
+            Optional<Book> book = bookRepository.findById(bookId);
+            if(book.isEmpty()){
+                throw new InformationNotFoundException("Book with id: " + bookId + " doesn't exist.");
+            } else {
+                book.get().setTitle(bookObject.getTitle());
+                book.get().setSummary(bookObject.getSummary());
+                book.get().setGenre(bookObject.getGenre());
+                book.get().setPages(bookObject.getPages());
+                book.get().setLanguage(bookObject.getLanguage());
+                book.get().setRating(bookObject.getRating());
+                book.get().setIsAvailable(bookObject.getIsAvailable());
+                book.get().setAuthor(bookObject.getAuthor());
+                return bookRepository.save(book.get());
+            }
         } else {
-            book.get().setTitle(bookObject.getTitle());
-            book.get().setSummary(bookObject.getSummary());
-            book.get().setGenre(bookObject.getGenre());
-            book.get().setPages(bookObject.getPages());
-            book.get().setLanguage(bookObject.getLanguage());
-            book.get().setRating(bookObject.getRating());
-            book.get().setIsAvailable(bookObject.getIsAvailable());
-            book.get().setAuthor(bookObject.getAuthor());
-            return bookRepository.save(book.get());
+            throw new ForbiddenException("Librarian account needed to add a new book.");
         }
+
     }
 
     public Book deleteBook(Long bookId){
-        Optional<Book> book = bookRepository.findById(bookId);
-        if(book.isEmpty()){
-            throw new InformationNotFoundException("Book with id: " + bookId + " doesn't exist.");
+        MyUserDetails userDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if(userDetails.getUser().getLibrarian()){
+            Optional<Book> book = bookRepository.findById(bookId);
+            if(book.isEmpty()){
+                throw new InformationNotFoundException("Book with id: " + bookId + " doesn't exist.");
+            } else {
+                bookRepository.deleteById(bookId);
+                return book.get();
+            }
         } else {
-            bookRepository.deleteById(bookId);
-            return book.get();
+            throw new ForbiddenException("Librarian account needed to add a new book.");
         }
+
     }
 }
