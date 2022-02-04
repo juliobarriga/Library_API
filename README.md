@@ -1,4 +1,8 @@
 # Library_API
+## Project Description
+This API will help in the library loan management system, it will allow to pull a book from the database and assign it to
+a user if this user wants to take it home, Also this application will allow non-registered users browse though the inventory 
+to search a book they would like to borrow and also allow them to see the reviews other users have made about them.
 
 ## User stories
 ### Librarian
@@ -72,3 +76,60 @@
 | POST         | /auth/users/register/              | Registers a new user                    | Public  |
 | POST         | /auth/users/login/                 | Logs a user in                          | Public  |
 | PUT          | /auth/users/update/                | Updates user information                | Public  |
+
+## Tools used
+- Java
+- Spring Boot
+- Maven
+- PostgreSQL
+- Postman
+- IntelliJ IDEA
+- Json Web Tokens
+### Dependencies used
+```
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter</artifactId>
+</dependency>
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-data-jpa</artifactId>
+</dependency>
+<dependency>
+    <groupId>org.postgresql</groupId>
+    <artifactId>postgresql</artifactId>
+    <scope>runtime</scope>
+</dependency>
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-security</artifactId>
+</dependency>
+<dependency>
+    <groupId>io.jsonwebtoken</groupId>
+    <artifactId>jjwt</artifactId>
+    <version>0.9.1</version>
+</dependency>
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-devtools</artifactId>
+    <scope>runtime</scope>
+    <optional>true</optional>
+</dependency>
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-test</artifactId>
+    <scope>test</scope>
+</dependency>
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-web</artifactId>
+</dependency>
+```
+### Project Challenges
+- Defining the users and models for this project was a challenge in the beggining.
+- Setting authentication for a shared URL ut different request.
+
+### Future Ideas
+- Adding other resources to the library like movies, magazines, documents, music, etc.
+- Separating the User model into Librarian and User, so that they can contain different information.
+- Defining better variable constrains.
