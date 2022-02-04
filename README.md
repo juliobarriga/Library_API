@@ -125,11 +125,59 @@ to search a book they would like to borrow and also allow them to see the review
     <artifactId>spring-boot-starter-web</artifactId>
 </dependency>
 ```
-### Project Challenges
+
+## Input Body examples
+### addNewBook and updateBook
+```
+{
+    "title" : "Pride and Prejudice",
+    "author" : "Jane Austen",
+    "summary" : "When Elizabeth Bennet first meets eligible ...",
+    "genre" : "Romance novel",
+    "language" : "English",
+    "pages" : 480,
+    "isAvailable" : true
+}
+```
+### addBookReview and updateReview
+```
+{
+    "comment": "Boooooring",
+    "rating": 1
+}
+```
+### updateLoan
+```
+{
+    "borrowDate": "2022-02-03",
+    "expirationDate": "2022-02-24",
+    "returnDate": "2022-03-02"
+}
+```
+### registerUser
+```
+{
+    "name" : "User",
+    "emailAddress" : "user@gmail.com",
+    "password": "password",
+    "cardNumber" : "1234567892",
+    "address" : "3rd Avenue",
+    "zipCode" : 60002,
+    "isLibrarian" : false
+}
+```
+### loginUser
+```
+{
+    "emailAddress": "user@gmail.com",
+    "password" : "password"
+}
+```
+## Project Challenges
 - Defining the users and models for this project was a challenge in the beggining.
 - Setting authentication for a shared URL ut different request.
 
-### Future Ideas
+## Future Ideas
 - Adding other resources to the library like movies, magazines, documents, music, etc.
 - Separating the User model into Librarian and User, so that they can contain different information.
 - Defining better variable constrains.
