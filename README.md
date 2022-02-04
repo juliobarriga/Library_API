@@ -42,6 +42,7 @@
 
 
 ## Entity Relationship Diagram (ERD)
+![Alt text](./images/erd_lucidchart.png "ERD made in Lucidchart")
 ![Alt text](./images/erDiagram.png "Library API ERD Diagram")
 
 
