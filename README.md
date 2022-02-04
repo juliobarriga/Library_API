@@ -1,5 +1,5 @@
 # Library_API
-=============
+
 ## User stories
 ### Librarian
 - As a librarian, I want to add a new book so that users can have more book options to choose from.
@@ -12,18 +12,24 @@
 - As a librarian, I want to search a loan by book id so that I can see dates and users that have borrowed the book.
 - As a librarian, I want to edit a loan information so that I can edit the dates of the loan.
 - As a librarian, I want to delete a loan so that I can cancel a loan a user made by accident.
+
+
 ###Librarian/ Registered user
 - As a librarian/registered user, I want to loan a book so that I can take it home and read it.
 - As a librarian/registered user, I want to review a book so that I can rate it and give my opinion about it.
 - As a librarian/registered user, I want to edit my review so that I can change my comment or rating.
 - As a librarian/registered user, I want to delete my review so that I can delete my review and don't affect the overall book rating.
 - As a librarian/registered user, I want to log in into the system so that I can be granted access to certain services.
+
+
 ###Registered user
 - As a registered user, I want to return a book so that the return date of the loan gets updated and the book status to available.
 - As a registered user, I want to extend the expiration date of my loan so that I can keep the book for more days.
 - As a registered user, I want to see my loan history so that I can see what books and when I borrowed them and returned them.
 - As a registered user, I want to search a loan by book id so that I can see how many times I've borrowed a single book.
 - As a registered user, I want to search a loan by loan id so that I can see just one particular loan entry.
+
+
 ###Any user (even non registered)
 - As any user, I want to see the whole inventory of books so that I can choose what book to borrow.
 - As any user, I want to search a book by id, so that I can see more information about it.
@@ -33,10 +39,13 @@
 - As any user, I want to filter reviews by user id so that I can see what books a user has reviewed.
 - As any user, I want to create a new library account so that I can loan books and review them.
 - As any user, I want to create a new Librarian account so that I can work at the library and have more access to the inventory.
-----------------
+
+
 ## Entity Relationship Diagram (ERD)
 ![Alt text](./images/erDiagram.png "Library API ERD Diagram")
-----------------
+
+
+
 ## End-points
 | Request Type | URL                                | Functionality                           | Access  |
 |--------------|------------------------------------|-----------------------------------------|---------|
